@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ePRO Application</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div id="root">
+        <div class="text-center p-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Loading application...</p>
+        </div>
+    </div>
+
+    <script>
+        // This will be replaced by your React/Vue app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if we're on Netlify
+            if (window.location.hostname.includes('netlify.app')) {
+                // Redirect to the login page
+                window.location.href = '/login';
+            } else {
+                // For local development
+                fetch('/api/')
+                    .then(response => response.text())
+                    .then(html => {
+                        document.open();
+                        document.write(html);
+                        document.close();
+                    })
+                    .catch(error => {
+                        document.getElementById('root').innerHTML = `
+                            <div class="container mt-5">
+                                <div class="alert alert-danger">
+                                    <h4 class="alert-heading">Connection Error</h4>
+                                    <p>Unable to connect to the server. Please make sure the backend is running.</p>
+                                    <hr>
+                                    <p class="mb-0">${error.message}</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+            }
+        });
+    </script>
+</body>
+</html>

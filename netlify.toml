@@ -1,0 +1,20 @@
+[build]
+  command = "echo 'Building...'"
+  publish = "static"
+  functions = "netlify/functions"
+
+[dev]
+  command = "python app.py"
+  port = 5000
+  targetPort = 5000
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
